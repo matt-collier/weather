@@ -1,1 +1,6 @@
-
+open-weather:
+  host: https://api.openweathermap.org
+  path: /data/2.5/onecall
+  
+  
+apiKey: 3f159511ac64f5393feaa6f3c700c74b  

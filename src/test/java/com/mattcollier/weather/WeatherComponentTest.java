@@ -3,7 +3,7 @@ package com.mattcollier.weather;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.File;
@@ -36,16 +36,17 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @ActiveProfiles("test")
 class WeatherComponentTest {
 
-    private static final String OPEN_WEATHER_MAP_URL = "https://openweathermap.org/api/one-call-api";
+    private static final String OPEN_WEATHER_MAP_PATH = "/data/2.5/onecall";
 
     @Autowired
     private MockMvc mockMvc;
+    
     private String requestQuery;
     private String response;
 
     @BeforeEach
     void setUp() {
-        stubFor(get(urlEqualTo(OPEN_WEATHER_MAP_URL))
+        stubFor(get(urlPathMatching(OPEN_WEATHER_MAP_PATH))
                         .willReturn(okJson(readTestFile("open-weather-response.json")))
         );
     }
