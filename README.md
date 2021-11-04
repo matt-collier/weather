@@ -29,3 +29,12 @@ way to approach this.
 
 You should be able to show that your code would work under different values returned from the
 API
+
+#To Run
+
+`mvn spring-boot:run`
+
+
+Example GET request
+
+`http://localhost:8080/warmest-day?longitude=-0.152778&latitude=50.827778`
