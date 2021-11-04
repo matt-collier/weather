@@ -3,6 +3,7 @@ package com.mattcollier.weather.infrastructure.out;
 import static java.time.ZoneOffset.UTC;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +30,7 @@ public class OpenWeatherAdapter implements WeatherLookup {
     @Override
     public WeatherForecast weatherForecast(final Location location) {
         final var openWeatherResponse = openWeatherClient.weatherForecast(location.getLongitude(),
-                                                               location.getLatitude(),
+                                                                          location.getLatitude(),
                                                                           apiKey);
         return mapToDomainModel(openWeatherResponse);
     }
@@ -45,9 +46,13 @@ public class OpenWeatherAdapter implements WeatherLookup {
 
     private DailyForecast mapToDomainModel(final Daily daily) {
         return DailyForecast.builder()
-                            .date(Instant.ofEpochMilli(daily.getDt() * 1000).atZone(UTC).toLocalDate())
+                            .date(secondsToLocalDate(daily.getDt()))
                             .temperature(daily.getTemp().getMax())
                             .humidity(daily.getHumidity())
                             .build();
+    }
+
+    private LocalDate secondsToLocalDate(final long seconds) {
+        return Instant.ofEpochMilli(seconds * 1000).atZone(UTC).toLocalDate();
     }
 }

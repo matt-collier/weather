@@ -56,7 +56,7 @@ class WeatherComponentTest {
         givenRequest("/warmest-day?longitude=50.825&latitude=-0.1388");
         whenWarmestDayCallIsMade(status().isOk());
         verifyResponseEqualTo(new JSONObject().put("date", "2021-11-07")
-                                              .put("temperature", 286.71)
+                                              .put("temperature", 13.56)
                                               .put("humidity", 65).toString());
     }
 

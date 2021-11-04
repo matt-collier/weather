@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ class WeatherControllerTest {
     void shouldCallService() {
         final var dailyForecast = DailyForecast.builder()
                                             .date(LocalDate.of(2021, 11, 2))
-                                            .temperature(288.26)
+                                            .temperature(new BigDecimal("288.26"))
                                             .humidity(52)
                                             .build();
         given(warmestDayQuery.warmestDay(any(Location.class))).willReturn(dailyForecast);

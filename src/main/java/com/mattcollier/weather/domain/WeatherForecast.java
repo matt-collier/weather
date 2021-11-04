@@ -16,9 +16,21 @@ public class WeatherForecast {
     
     public DailyForecast warmestDayOfWeek() {
         return dailyForecasts.stream()
-                             .max(Comparator.comparing(DailyForecast::getTemperature))
+                             .max(sortByTemperature().thenComparing(sortByHumidityAsc())
+                                                     .thenComparing(sortByDateAsc()))
                              .orElseThrow(() -> new RuntimeException("TODO: implement error handling"));
     }
 
 
+    public Comparator<DailyForecast> sortByTemperature() {
+        return Comparator.comparing(DailyForecast::getTemperature);
+    }
+
+    public Comparator<DailyForecast> sortByHumidityAsc() {
+        return Comparator.comparing(DailyForecast::getHumidity).reversed();
+    }
+
+    public Comparator<DailyForecast> sortByDateAsc() {
+        return Comparator.comparing(DailyForecast::getDate).reversed();
+    }
 }

@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,15 +40,15 @@ class WeatherServiceTest {
     @Test
     void shouldCallOpenWeatherAndReturnWarmestDay() {
         givenOpenWeatherReturns(new OpenWeatherResponse().setDaily(List.of(new Daily().setDt(1635850800L)
-                                                                                      .setTemp(new Temp().setMax(283.85))
+                                                                                      .setTemp(new Temp().setMax(new BigDecimal("283.85")))
                                                                                       .setHumidity(25),
                                                                            new Daily().setDt(1635937200L)
-                                                                           .setTemp(new Temp().setMax(278.44))
+                                                                           .setTemp(new Temp().setMax(new BigDecimal("278.44")))
                                                                            .setHumidity(22))));
         final var warmestDay = weatherService.warmestDay(Location.of(22.3, 48.4));
         assertThat(warmestDay).isEqualTo(DailyForecast.builder()
                                                       .date(LocalDate.of(2021, 11, 2))
-                                                      .temperature(283.85)
+                                                      .temperature(new BigDecimal("283.85"))
                                                       .humidity(25)
                                                       .build());
         verify(openWeatherClient).weatherForecast(22.3, 48.4, "dummyApiKey");
